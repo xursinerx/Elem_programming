@@ -49,7 +49,9 @@ def main():
     """
     Loads the game graphics, creates a game window and sets a draw handler for it.
     """
-    sweeperlib.load_sprites("/home/ursa/Documents/progrexer/minesweeper/sprites")
+    sweeperlib.load_sprites("C:\Users\msinu\Documents\coding\sprites")
+    #"C:\Users\msinu\Documents\coding\sprites"
+    #"/home/ursa/Documents/coding/sprites"
     sweeperlib.create_window(600, 400)
 
     field = []
