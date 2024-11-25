@@ -102,3 +102,17 @@ def floodfill(minefield, x, y):
         if len(unknown_tiles) == 0:
             break
     state["field"] = minefield
+
+def handle_mouse(x, y, button, modkey):
+    """
+    Handler function, needed to make it possible to mark flags
+    and open mines without the wrong thing happening :p
+    """
+    buttons = {
+        lib.MOUSE_LEFT: "left",
+        lib.MOUSE_MIDDLE: "middle",
+        lib.MOUSE_RIGHT: "right"
+    }
+    #buttonname = buttons.get(button, "")
+    if buttons.get(button, "") 
+        if buttons.get(button, "") = "left":
