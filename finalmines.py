@@ -16,12 +16,28 @@ def place_mines(minefield, tiles, mines):
         minefield[y][x] = "x"
         tiles.remove(usedtile)
 
-def place_numbers(minefield, x, y):
+def place_numbers(minefield):
     """
     Prepares the rest of the field by placing either numbers
     or empty tiles into the mineless tiles
     """
     #if something doesn't work then it's probably this
+    #viereiset laatat:
+    neighbor = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+
+    for y, row in enumerate(minefield):
+        for x, tile in enumerate(minefield[0]):
+            if tile == "x":
+                continue
+            
+            mineamount = 0
+            for j, i in neighbor:
+                y_j, x_i = y + j, x + i
+                if 0 <= y_j < len(minefield) and 0 <= x_i < len(minefield[0]) and minefield[y_j][x_i] == "x":
+                    mineamount += 1
+            minefield[y][x] = str(mineamount)
+    return minefield
+
     tiles = [(y, x)]
     for j in range(tiles[0] - 1, tiles[0] + 2):
         for i in range(tiles[1] - 1, tiles[1] + 2):
@@ -125,6 +141,9 @@ def start_menu():
     lib.create_window()
     lib.set_mouse_handler(handle_mouse)
 
+    #name of the game duh
+    lib.draw_text("Minesweeper", 48, 200, (0, 0, 0, 255), "serif", 64)
+
     #start button
     lib.prepare_rectangle(250, 340, 300, 80, (255, 240, 240, 255))
     lib.draw_text("start", 320, 364)
@@ -139,5 +158,56 @@ def start_menu():
 
     lib.start()
 
+def stats():
+    """
+    Holds the record of the games played before;
+    the difficulty level and if the user won the game
+    """
+    lib.clear_window()
+
+def game_menu():
+    """
+    Holds four options for game difficulties:
+    easy, normal, hard and crazy
+    each of them will have a different size and amount of mines
+    """
+    lib.clear_window()
+    #easy
+    lib.prepare_rectangle(100, 250, 250, 150, (255, 240, 240, 255))
+    lib.draw_text("easy", 205, 155, (0, 0, 0, 255), "serif", 30)
+    lib.draw_text("9x9", 220, 190, (0, 0, 0, 255), "serif", 27)
+    #normal
+    lib.prepare_rectangle(450, 250, 250, 150, (255, 240, 240, 255))
+    lib.draw_text("normal", 540, 155, (0, 0, 0, 255), "serif", 30)
+    lib.draw_text("9x15", 565, 190, (0, 0, 0, 255), "serif", 27)
+    #hard
+    lib.prepare_rectangle(100, 700, 250, 150, (255, 240, 240, 255))
+    lib.draw_text("hard", 205, 605, (0, 0, 0, 255), "serif", 30)
+    lib.draw_text("15x25", 220, 640, (0, 0, 0, 255), "serif", 27)
+    #crazy
+    lib.prepare_rectangle(450, 700, 250, 150, (255, 240, 240, 255))
+    lib.draw_text("crazy", 540, 605, (0, 0, 0, 255), "serif", 30)
+    lib.draw_text("25x25", 565, 640, (0, 0, 0, 255), "serif", 27)
+
+def game_screen(x, y, mines):
+    lib.clear_window()
+    lib.resize_window(x + 80, y + 80)
+    lib.load_sprites(r"C:\Users\msinu\OneDrive\Documents\GitHub\Elem_programming\sprites")
+
+    field = []
+    for row in range(y):
+        field.append([])
+        for col in range(x):
+            field[-1].append(" ")
+
+    state["field"] = field
+
+    available = []
+    for i in range(x):
+        for j in range(y):
+            available.append((i, j))
+
+    place_mines(field, available, mines)
+    place_numbers(field)
 #maybebaby tähän alan rakentamaan tota pelin toimintaa? perchance...?
  
