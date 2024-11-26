@@ -172,19 +172,19 @@ def game_menu():
     each of them will have a different size and amount of mines
     """
     lib.clear_window()
-    #easy
+    #easy, 10 mines
     lib.prepare_rectangle(100, 250, 250, 150, (255, 240, 240, 255))
     lib.draw_text("easy", 205, 155, (0, 0, 0, 255), "serif", 30)
     lib.draw_text("9x9", 220, 190, (0, 0, 0, 255), "serif", 27)
-    #normal
+    #normal, 20 mines
     lib.prepare_rectangle(450, 250, 250, 150, (255, 240, 240, 255))
     lib.draw_text("normal", 540, 155, (0, 0, 0, 255), "serif", 30)
     lib.draw_text("9x15", 565, 190, (0, 0, 0, 255), "serif", 27)
-    #hard
+    #hard, 75 mines
     lib.prepare_rectangle(100, 700, 250, 150, (255, 240, 240, 255))
     lib.draw_text("hard", 205, 605, (0, 0, 0, 255), "serif", 30)
     lib.draw_text("15x25", 220, 640, (0, 0, 0, 255), "serif", 27)
-    #crazy
+    #crazy, 155 mines
     lib.prepare_rectangle(450, 700, 250, 150, (255, 240, 240, 255))
     lib.draw_text("crazy", 540, 605, (0, 0, 0, 255), "serif", 30)
     lib.draw_text("25x25", 565, 640, (0, 0, 0, 255), "serif", 27)
