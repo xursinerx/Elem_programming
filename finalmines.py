@@ -122,13 +122,20 @@ def start_menu():
     Creates the start menu at the beginning, will contain three buttons
     for either looking at the past games, quitting and starting a new game
     """
-    lib.load_sprites(r"C:\Users\msinu\OneDrive\Documents\GitHub\Elem_programming\sprites")
     lib.create_window()
     lib.set_mouse_handler(handle_mouse)
 
-    start_btn = lib.prepare_rectangle(250, 340, 300, 80, (255, 240, 240, 255))
-    stats_btn = lib.prepare_rectangle(250, 340, 300, 80, (240, 255, 240, 255))
-    quit_btn = lib.prepare_rectangle(250, 340, 300, 80, (240, 240, 255, 255))
+    #start button
+    lib.prepare_rectangle(250, 340, 300, 80, (255, 240, 240, 255))
+    lib.draw_text("start", 320, 364)
+
+    #stat button
+    lib.prepare_rectangle(250, 340, 300, 80, (240, 255, 240, 255))
+    lib.draw_text("stats", 320, 464)
+
+    #quit button
+    lib.prepare_rectangle(250, 340, 300, 80, (240, 240, 255, 255))
+    lib.draw_text("quit", 336, 564)
 
     lib.start()
 
