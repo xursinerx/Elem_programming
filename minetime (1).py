@@ -50,7 +50,7 @@ def main():
     Loads the game graphics, creates a game window and sets a draw handler for it.
     """
     sweeperlib.load_sprites(r"C:\Users\msinu\OneDrive\Documents\GitHub\Elem_programming\sprites")
-    #C:\Users\msinu\OneDrive\Documents\GitHub\Elem_programming\sprites
+    #r"C:\Users\msinu\OneDrive\Documents\GitHub\Elem_programming\sprites"
     #"/home/ursa/Documents/coding/sprites"
     sweeperlib.create_window(600, 400)
 
