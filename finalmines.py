@@ -190,6 +190,10 @@ def game_menu():
     lib.draw_text("25x25", 565, 640, (0, 0, 0, 255), "serif", 27)
 
 def game_screen(x, y, mines):
+    """
+    As the name says, the game screen. This will hopefully show
+    the awesome, groundbreaking, never seen before minesweeper
+    """
     lib.clear_window()
     lib.resize_window(x + 80, y + 80)
     lib.load_sprites(r"C:\Users\msinu\OneDrive\Documents\GitHub\Elem_programming\sprites")
@@ -209,5 +213,7 @@ def game_screen(x, y, mines):
 
     place_mines(field, available, mines)
     place_numbers(field)
+    lib.set_draw_handler(draw_field)
+
 #maybebaby tähän alan rakentamaan tota pelin toimintaa? perchance...?
  
