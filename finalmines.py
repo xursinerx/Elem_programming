@@ -60,8 +60,8 @@ def draw_field():
             
             #en oo tästä seuraavasta ny varma sos
             for i in range(9):
-                if tile == "i":
-                    lib.prepare_sprite("i", x * tile_size, y * tile_size)
+                if tile == "{i}":
+                    lib.prepare_sprite("{i}", x * tile_size, y * tile_size)
 
     lib.draw_sprites()
 
@@ -114,5 +114,23 @@ def handle_mouse(x, y, button, modkey):
         lib.MOUSE_RIGHT: "right"
     }
     #buttonname = buttons.get(button, "")
-    if buttons.get(button, "") 
-        if buttons.get(button, "") = "left":
+    #mitää bittua nyt taasss???
+    return buttons.get(button, "")
+
+def start_menu():
+    """
+    Creates the start menu at the beginning, will contain three buttons
+    for either looking at the past games, quitting and starting a new game
+    """
+    lib.load_sprites(r"C:\Users\msinu\OneDrive\Documents\GitHub\Elem_programming\sprites")
+    lib.create_window()
+    lib.set_mouse_handler(handle_mouse)
+
+    start_btn = lib.prepare_rectangle(250, 340, 300, 80, (255, 240, 240, 255))
+    stats_btn = lib.prepare_rectangle(250, 340, 300, 80, (240, 255, 240, 255))
+    quit_btn = lib.prepare_rectangle(250, 340, 300, 80, (240, 240, 255, 255))
+
+    lib.start()
+
+#maybebaby tähän alan rakentamaan tota pelin toimintaa? perchance...?
+ 
