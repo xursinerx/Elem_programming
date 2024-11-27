@@ -130,8 +130,17 @@ def handle_mouse(x, y, button, modkey):
         lib.MOUSE_RIGHT: "right"
     }
     #buttonname = buttons.get(button, "")
-    #mitää bittua nyt taasss???
-    return buttons.get(button, "")
+    #mitää bittua nyt taasss??? vittuuuuu auttakaa jo
+    btn_location = [(y, x)]
+    btn_name = buttons.get(button, "")
+    return btn_location, btn_name
+    
+def draw_btn(name, x, y, width, height, color, txt_x, txt_y, txt_color=(0, 0, 0, 255), font="serif", size=32):
+    """
+    makes creating buttons a little bit easier
+    """
+    lib.prepare_rectangle(x, y, width, height, color)
+    lib.draw_text(name, txt_x, txt_y, txt_color, font, size)
 
 def start_menu():
     """
@@ -145,16 +154,13 @@ def start_menu():
     lib.draw_text("Minesweeper", 48, 200, (0, 0, 0, 255), "serif", 64)
 
     #start button
-    lib.prepare_rectangle(250, 340, 300, 80, (255, 240, 240, 255))
-    lib.draw_text("start", 320, 364)
+    draw_btn("start", 250, 340, 300, 80, (255, 240, 240, 255), 320, 364)
 
     #stat button
-    lib.prepare_rectangle(250, 340, 300, 80, (240, 255, 240, 255))
-    lib.draw_text("stats", 320, 464)
+    draw_btn("stat", 250, 440, 300, 80, (240, 255, 240, 255), 320, 464)
 
     #quit button
-    lib.prepare_rectangle(250, 340, 300, 80, (240, 240, 255, 255))
-    lib.draw_text("quit", 336, 564)
+    draw_btn("quit", 250, 540, 300, 80, (240, 240, 255, 255), 320, 564)
 
     lib.start()
 
@@ -173,20 +179,21 @@ def game_menu():
     """
     lib.clear_window()
     #easy, 10 mines
-    lib.prepare_rectangle(100, 250, 250, 150, (255, 240, 240, 255))
-    lib.draw_text("easy", 205, 155, (0, 0, 0, 255), "serif", 30)
+    draw_btn("easy", 100, 250, 250, 150, (255, 240, 240, 255), 205, 155, size=30)
     lib.draw_text("9x9", 220, 190, (0, 0, 0, 255), "serif", 27)
+
     #normal, 20 mines
-    lib.prepare_rectangle(450, 250, 250, 150, (255, 240, 240, 255))
-    lib.draw_text("normal", 540, 155, (0, 0, 0, 255), "serif", 30)
+    draw_btn("normal", 450, 250, 250, 150, (255, 240, 240, 255), 540, 155, size=30)
+    #lib.prepare_rectangle(450, 250, 250, 150, (255, 240, 240, 255))
+    #lib.draw_text("normal", 540, 155, (0, 0, 0, 255), "serif", 30)
     lib.draw_text("9x15", 565, 190, (0, 0, 0, 255), "serif", 27)
+
     #hard, 75 mines
-    lib.prepare_rectangle(100, 700, 250, 150, (255, 240, 240, 255))
-    lib.draw_text("hard", 205, 605, (0, 0, 0, 255), "serif", 30)
+    draw_btn("hard", 100, 700, 250, 150, (255, 240, 240, 255), 205, 605, size=30)
     lib.draw_text("15x25", 220, 640, (0, 0, 0, 255), "serif", 27)
+
     #crazy, 155 mines
-    lib.prepare_rectangle(450, 700, 250, 150, (255, 240, 240, 255))
-    lib.draw_text("crazy", 540, 605, (0, 0, 0, 255), "serif", 30)
+    draw_btn("crazy", 450, 700, 250, 150, (255, 240, 240, 255), 540, 605, size=30)
     lib.draw_text("25x25", 565, 640, (0, 0, 0, 255), "serif", 27)
 
 def game_screen(x, y, mines):
@@ -216,4 +223,15 @@ def game_screen(x, y, mines):
     lib.set_draw_handler(draw_field)
 
 #maybebaby tähän alan rakentamaan tota pelin toimintaa? perchance...?
- 
+#start the game ig
+start_menu()
+#if button clicked in sun perse:
+#    lib.close()
+#if button clicked in mun perse:
+#    game_menu()
+#if button clicked in sun mutsis:
+#    stats()
+
+#lib.set_mouse_handler(handle_mouse)
+#if enumerate(btn_location) in range(mutsis)
+#mitä paskaa mitä vittuauaaa
