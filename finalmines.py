@@ -5,6 +5,7 @@ state = {
     "field": []
 }
 
+
 def place_mines(minefield, tiles, mines):
     """
     Randomize a specific amount of mines into the minefield
@@ -15,6 +16,7 @@ def place_mines(minefield, tiles, mines):
         x, y = usedtile
         minefield[y][x] = "x"
         tiles.remove(usedtile)
+
 
 def place_numbers(minefield):
     """
@@ -38,16 +40,6 @@ def place_numbers(minefield):
             minefield[y][x] = str(mineamount)
     return minefield
 
-    tiles = [(y, x)]
-    for j in range(tiles[0] - 1, tiles[0] + 2):
-        for i in range(tiles[1] - 1, tiles[1] + 2):
-            for y_j in range(j - 1, j + 2):
-                for x_i in range(i - 1, i + 2):
-                    rows = len(minefield) - 1
-                    columns = len(minefield[0]) - 1
-                    if 0 <= y_j <= rows and 0 <= x_i <= columns:
-                        mineamount += (minefield[y_j][x_i] == "x")
-                        tiles[j][i] = mineamount
 
 def draw_field():
     """
@@ -74,12 +66,13 @@ def draw_field():
             if tile == "f":
                 lib.prepare_sprite("f", x * tile_size, y * tile_size)
             
-            #en oo tästä seuraavasta ny varma sos
+            # en oo tästä seuraavasta ny varma sos
             for i in range(9):
                 if tile == "{i}":
                     lib.prepare_sprite("{i}", x * tile_size, y * tile_size)
 
     lib.draw_sprites()
+
 
 def startingfield(minefield, x, y):
     """
@@ -90,6 +83,7 @@ def startingfield(minefield, x, y):
     for j in range(hidden_tiles[0] - 1, hidden_tiles[0] + 2):
         for i in range(hidden_tiles[1] - 1, hidden_tiles[1] + 2):
             minefield[y][x] = " "
+
 
 def floodfill(minefield, x, y):
     """
@@ -119,6 +113,7 @@ def floodfill(minefield, x, y):
             break
     state["field"] = minefield
 
+
 def handle_mouse(x, y, button, modkey):
     """
     Handler function, needed to make it possible to mark flags
@@ -129,12 +124,13 @@ def handle_mouse(x, y, button, modkey):
         lib.MOUSE_MIDDLE: "middle",
         lib.MOUSE_RIGHT: "right"
     }
-    #buttonname = buttons.get(button, "")
-    #mitää bittua nyt taasss??? vittuuuuu auttakaa jo
+    # buttonname = buttons.get(button, "")
+    # mitää bittua nyt taasss??? vittuuuuu auttakaa jo
     btn_location = [(y, x)]
     btn_name = buttons.get(button, "")
     return btn_location, btn_name
-    
+
+ 
 def draw_btn(name, x, y, width, height, color, txt_x, txt_y, txt_color=(0, 0, 0, 255), font="serif", size=32):
     """
     makes creating buttons a little bit easier
@@ -142,27 +138,29 @@ def draw_btn(name, x, y, width, height, color, txt_x, txt_y, txt_color=(0, 0, 0,
     lib.prepare_rectangle(x, y, width, height, color)
     lib.draw_text(name, txt_x, txt_y, txt_color, font, size)
 
+
 def start_menu():
     """
     Creates the start menu at the beginning, will contain three buttons
     for either looking at the past games, quitting and starting a new game
     """
     lib.create_window()
-    lib.set_mouse_handler(handle_mouse)
+    # lib.set_mouse_handler(handle_mouse)
 
-    #name of the game duh
+    # name of the game duh
     lib.draw_text("Minesweeper", 48, 200, (0, 0, 0, 255), "serif", 64)
 
-    #start button
+    # start button
     draw_btn("start", 250, 340, 300, 80, (255, 240, 240, 255), 320, 364)
 
-    #stat button
+    # stat button
     draw_btn("stat", 250, 440, 300, 80, (240, 255, 240, 255), 320, 464)
 
-    #quit button
+    # quit button
     draw_btn("quit", 250, 540, 300, 80, (240, 240, 255, 255), 320, 564)
 
     lib.start()
+
 
 def stats():
     """
@@ -171,6 +169,7 @@ def stats():
     """
     lib.clear_window()
 
+
 def game_menu():
     """
     Holds four options for game difficulties:
@@ -178,23 +177,22 @@ def game_menu():
     each of them will have a different size and amount of mines
     """
     lib.clear_window()
-    #easy, 10 mines
+    # easy, 10 mines
     draw_btn("easy", 100, 250, 250, 150, (255, 240, 240, 255), 205, 155, size=30)
     lib.draw_text("9x9", 220, 190, (0, 0, 0, 255), "serif", 27)
 
-    #normal, 20 mines
+    # normal, 20 mines
     draw_btn("normal", 450, 250, 250, 150, (255, 240, 240, 255), 540, 155, size=30)
-    #lib.prepare_rectangle(450, 250, 250, 150, (255, 240, 240, 255))
-    #lib.draw_text("normal", 540, 155, (0, 0, 0, 255), "serif", 30)
     lib.draw_text("9x15", 565, 190, (0, 0, 0, 255), "serif", 27)
 
-    #hard, 75 mines
+    # hard, 75 mines
     draw_btn("hard", 100, 700, 250, 150, (255, 240, 240, 255), 205, 605, size=30)
     lib.draw_text("15x25", 220, 640, (0, 0, 0, 255), "serif", 27)
 
-    #crazy, 155 mines
+    # crazy, 155 mines
     draw_btn("crazy", 450, 700, 250, 150, (255, 240, 240, 255), 540, 605, size=30)
     lib.draw_text("25x25", 565, 640, (0, 0, 0, 255), "serif", 27)
+
 
 def game_screen(x, y, mines):
     """
@@ -204,6 +202,8 @@ def game_screen(x, y, mines):
     lib.clear_window()
     lib.resize_window(x + 80, y + 80)
     lib.load_sprites(r"C:\Users\msinu\OneDrive\Documents\GitHub\Elem_programming\sprites")
+    # r"C:\Users\msinu\OneDrive\Documents\GitHub\Elem_programming\sprites"
+    # "/home/ursa/Documents/coding/sprites"
 
     field = []
     for row in range(y):
@@ -222,8 +222,7 @@ def game_screen(x, y, mines):
     place_numbers(field)
     lib.set_draw_handler(draw_field)
 
-#maybebaby tähän alan rakentamaan tota pelin toimintaa? perchance...?
-#start the game ig
+
 start_menu()
 #if button clicked in sun perse:
 #    lib.close()
