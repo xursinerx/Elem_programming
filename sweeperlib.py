@@ -29,8 +29,8 @@ if modifiers & sweeperlib.MOD_SHIFT:
 
 import pyglet
 # If the sweeperlib crashes while loading, you can try to uncomment these lines.
-#from pyglet.gl import glEnable, GL_TEXTURE_2D
-#glEnable(GL_TEXTURE_2D)
+from pyglet.gl import glEnable, GL_TEXTURE_2D
+glEnable(GL_TEXTURE_2D)
 
 MOUSE_LEFT = pyglet.window.mouse.LEFT
 MOUSE_MIDDLE = pyglet.window.mouse.MIDDLE
@@ -92,7 +92,7 @@ def load_sprites(path):
     images = {}
     images["0"] = pyglet.resource.image("tile_empty.png")
     for i in range(1, 9):
-        images[str(i)] = pyglet.resource.image("tile_{i}.png")
+        images[str(i)] = pyglet.resource.image(f"tile_{i}.png")
     images["x"] = pyglet.resource.image("tile_mine.png")
     images[" "] = pyglet.resource.image("tile_back.png")
     images["f"] = pyglet.resource.image("tile_flag.png")
@@ -413,8 +413,7 @@ def draw_text(text, x, y, color=(0, 0, 0, 255), font="serif", size=32):
     :param str font: name of the font family
     :param int size: fontin size as points
     """
-
-    text_box = pyglet.text.Label(text,
+    graphics["sprites"].append(pyglet.text.Label(text,
         font_name=font,
         font_size=size,
         color=color,
@@ -422,8 +421,7 @@ def draw_text(text, x, y, color=(0, 0, 0, 255), font="serif", size=32):
         anchor_x="left", anchor_y="bottom",
         batch=graphics["batch"],
         group=graphics["text_group"]
-    )
-    text_box.draw()
+    ))
 
 def begin_sprite_draw():
     """

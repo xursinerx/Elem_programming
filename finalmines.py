@@ -144,21 +144,23 @@ def start_menu():
     Creates the start menu at the beginning, will contain three buttons
     for either looking at the past games, quitting and starting a new game
     """
-    lib.create_window()
+    
+    lib.create_window(bg_color=(100,100,100,100))
     # lib.set_mouse_handler(handle_mouse)
-
+    font = "Microsoft Sans Serif"
     # name of the game duh
-    lib.draw_text("Minesweeper", 48, 200, (0, 0, 0, 255), "serif", 64)
+    lib.draw_text("Minesweeper", 48, 200, (0, 0, 0, 255), font, 64)
 
     # start button
-    draw_btn("start", 250, 340, 300, 80, (255, 240, 240, 255), 320, 364)
+    draw_btn("start", 250, 340, 300, 80, (255, 240, 240, 255), 320, 364, font=font)
 
     # stat button
-    draw_btn("stat", 250, 440, 300, 80, (240, 255, 240, 255), 320, 464)
+    draw_btn("stat", 250, 440, 300, 80, (240, 255, 240, 255), 320, 464, font=font)
 
     # quit button
-    draw_btn("quit", 250, 540, 300, 80, (240, 240, 255, 255), 320, 564)
+    draw_btn("quit", 250, 540, 300, 80, (240, 240, 255, 255), 320, 564, font=font)
 
+    lib.set_draw_handler(draw_field)
     lib.start()
 
 
@@ -223,10 +225,12 @@ def game_screen(x, y, mines):
     starting_field(field, x, y)
     lib.set_draw_handler(draw_field)
 
-lib.create_window()
-lib.start()
+
+
+#lib.create_window()
+#lib.start()
 # game_screen(9, 9, 10)
-# start_menu()
+start_menu()
 #if button clicked in sun perse:
 #    lib.close()
 #if button clicked in mun perse:
