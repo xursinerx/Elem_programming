@@ -23,8 +23,8 @@ def place_numbers(minefield):
     Prepares the rest of the field by placing either numbers
     or empty tiles into the mineless tiles
     """
-    #if something doesn't work then it's probably this
-    #viereiset laatat:
+    # if something doesn't work then it's probably this
+    # viereiset laatat:
     neighbor = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
 
     for y, row in enumerate(minefield):
@@ -74,12 +74,12 @@ def draw_field():
     lib.draw_sprites()
 
 
-def startingfield(minefield, x, y):
+def starting_field(minefield, x, y):
     """
     Hides all tiles at the beginning of the game
     """
     
-    hidden_tiles = [(y, x)]
+    hidden_tiles = (y, x)
     for j in range(hidden_tiles[0] - 1, hidden_tiles[0] + 2):
         for i in range(hidden_tiles[1] - 1, hidden_tiles[1] + 2):
             minefield[y][x] = " "
@@ -220,6 +220,7 @@ def game_screen(x, y, mines):
 
     place_mines(field, available, mines)
     place_numbers(field)
+    starting_field(field, x, y)
     lib.set_draw_handler(draw_field)
 
 
