@@ -200,7 +200,7 @@ def game_screen(x, y, mines):
     the awesome, groundbreaking, never seen before minesweeper
     """
     lib.clear_window()
-    lib.resize_window(x + 80, y + 80)
+    lib.resize_window(x * 40 + 80, y * 40 + 80)
     lib.load_sprites(r"C:\Users\msinu\OneDrive\Documents\GitHub\Elem_programming\sprites")
     # r"C:\Users\msinu\OneDrive\Documents\GitHub\Elem_programming\sprites"
     # "/home/ursa/Documents/coding/sprites"
@@ -223,8 +223,10 @@ def game_screen(x, y, mines):
     starting_field(field, x, y)
     lib.set_draw_handler(draw_field)
 
-
-start_menu()
+lib.create_window()
+lib.start()
+# game_screen(9, 9, 10)
+# start_menu()
 #if button clicked in sun perse:
 #    lib.close()
 #if button clicked in mun perse:
