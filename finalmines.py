@@ -3,7 +3,7 @@ import sweeperlib as lib
 import math
 
 state = {
-    "field": []
+    "field": [],
     "field_2_see": []
 }
 
@@ -84,7 +84,7 @@ def starting_field(hidden_field):
     """
     for j, row in enumerate(hidden_field):
         for i, tile in enumerate(row):
-            minefield[j][i] = " "
+            hidden_field[j][i] = " "
     return hidden_field
 
 
