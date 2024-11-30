@@ -7,7 +7,8 @@ state = {
     "field_2_see": []
 }
 
-font = "Microsoft Sans Serif"
+# font = "Microsoft Sans Serif"
+font = "DejaVu Serif"
 
 
 def place_mines(minefield, tiles, mines):
@@ -143,13 +144,13 @@ def start_menu_draw():
     lib.draw_text("Minesweeper", 250, 500, (0, 0, 0, 255), font, 36)
 
     # start button
-    draw_btn("start", 250, 340, 300, 80, (200, 255, 200, 255), 345, 357, font)
+    draw_btn("start", 250, 340, 300, 80, (200, 255, 200, 255), 345, 357)
 
     # stat button
-    draw_btn("stat", 250, 240, 300, 80, (200, 200, 255, 255), 345, 257, font)
+    draw_btn("stat", 250, 240, 300, 80, (200, 200, 255, 255), 345, 257)
 
     # quit button
-    draw_btn("quit", 250, 140, 300, 80, (255, 200, 200, 255), 350, 157, font)
+    draw_btn("quit", 250, 140, 300, 80, (255, 200, 200, 255), 350, 157)
 
     lib.draw_sprites()
 
