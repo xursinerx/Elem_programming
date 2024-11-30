@@ -9,6 +9,7 @@ state = {
 
 font = "Microsoft Sans Serif"
 
+
 def place_mines(minefield, tiles, mines):
     """
     Randomize a specific amount of mines into the minefield
@@ -56,24 +57,7 @@ def draw_field():
     lib.draw_background()
     for y in range(len(state["field"])):
         for x in range(len(state["field"][0])):
-            lib.prepare_sprite(state["field_2_show"][y][x, y * tile_size, x * tile_size])
-
-#    for y, row in enumerate(field):
-#        for x, column in enumerate(row):
-#            tile = field[y][x]
-#
-#            if tile == "x":
-#                lib.prepare_sprite("x", x * tile_size, y * tile_size)
-#
-#            if tile == " ":
-#                lib.prepare_sprite(" ", x * tile_size, y * tile_size)
-#            
-#            if tile == "f":
-#                lib.prepare_sprite("f", x * tile_size, y * tile_size)
-#            
-#            for i in range(9):
-#                if tile == f"{i}":
-#                    lib.prepare_sprite(f"{i}", x * tile_size, y * tile_size)
+            lib.prepare_sprite(state["field_2_show"][y][x], y * tile_size, x * tile_size)
 
     lib.draw_sprites()
 
@@ -143,7 +127,7 @@ def handle_mouse_start(x, y, button, modkey):
  
 def draw_btn(name, x, y, width, height, color, txt_x, txt_y, txt_color=(0, 0, 0, 255), size=32):
     """
-    makes creating buttons a little bit easier
+    makes creating buttons a bit easier
     """
     lib.prepare_rectangle(x, y, width, height, color)
     lib.draw_text(name, txt_x, txt_y, txt_color, font, size)
@@ -167,7 +151,7 @@ def start_menu_draw():
     # quit button
     draw_btn("quit", 250, 140, 300, 80, (255, 200, 200, 255), 350, 157, font)
 
-    lib.draw_sprites
+    lib.draw_sprites()
 
 
 def start_menu():
@@ -282,9 +266,9 @@ def game_screen(x, y, mines):
     """
     lib.clear_window()
     lib.resize_window(x * 40, y * 40)
-    lib.load_sprites("C:\\Users\\msinu\\OneDrive\\Documents\\GitHub\\Elem_programming\\sprites")
+    lib.load_sprites("/home/ursa/Documents/Elem_programming/sprites")
     # "C:\\Users\\msinu\\OneDrive\\Documents\\GitHub\\Elem_programming\\sprites"
-    # "/home/ursa/Documents/coding/sprites"
+    # "/home/ursa/Documents/Elem_programming/sprites"
 
     field = []
     for row in range(y):
@@ -307,7 +291,6 @@ def game_screen(x, y, mines):
     lib.set_draw_handler(draw_field)
     lib.set_mouse_handler(handle_mouse_game)
     lib.start()
-
 
 
 start_menu()

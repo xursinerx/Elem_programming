@@ -29,8 +29,8 @@ if modifiers & sweeperlib.MOD_SHIFT:
 
 import pyglet
 # If the sweeperlib crashes while loading, you can try to uncomment these lines.
-from pyglet.gl import glEnable, GL_TEXTURE_2D
-glEnable(GL_TEXTURE_2D)
+# from pyglet.gl import glEnable, GL_TEXTURE_2D
+# glEnable(GL_TEXTURE_2D)
 
 MOUSE_LEFT = pyglet.window.mouse.LEFT
 MOUSE_MIDDLE = pyglet.window.mouse.MIDDLE
@@ -98,6 +98,7 @@ def load_sprites(path):
     images["f"] = pyglet.resource.image("tile_flag.png")
     graphics["images"] = images
 
+
 def load_duck(path):
     """
     Loads the necessary graphics for the duck game. This include the duck
@@ -112,6 +113,7 @@ def load_duck(path):
     sling = pyglet.resource.image("sling.png")
     graphics["images"]["duck"] = duck
     graphics["images"]["sling"] = sling
+
 
 def load_background_image(folder, image):
     """
@@ -153,6 +155,7 @@ def create_window(width=800, height=600, bg_color=(240, 240, 240, 255), bg_image
         graphics["window"].on_close = close
 
     resize_window(width, height, bg_color, bg_image)
+
 
 def resize_window(width, height, bg_color=(240, 240, 240, 255), bg_image=None):
     """
@@ -210,6 +213,7 @@ def set_mouse_handler(handler):
     else:
         print("Window hasn't been created!")
 
+
 def set_drag_handler(handler):
     """
     Sets a function that is used to handle mouse dragging. It is called
@@ -240,7 +244,8 @@ def set_drag_handler(handler):
         graphics["window"].on_mouse_drag = handler
     else:
         print("Window hasn't been created!")
-    
+
+
 def set_release_handler(handler):
     """
     Sets a function that is used when a mouse button is released. Typically
@@ -302,6 +307,7 @@ def set_keyboard_handler(handler):
     else:
         print("Window hasn't been created!")
 
+
 def read_keyboard():
     """
     Reads the keyboard state and returns it as a dictionary where keys
@@ -312,6 +318,7 @@ def read_keyboard():
     """
 
     return state["keys"]
+
 
 def set_draw_handler(handler):
     """
@@ -352,7 +359,7 @@ def set_interval_handler(handler, interval=1/60):
     The interval's default value translates to 60 FPS.
 
     :param function handler: handler to call periodically
-    :param float toistovali: interval between calls, default 1/60
+    :param float interval: interval between calls, default 1/60
     """
 
     pyglet.clock.schedule_interval(handler, interval)
