@@ -17,7 +17,6 @@ state = {
     "time_2_see": 0,
 }
 
-# font = "Microsoft Sans Serif"
 font = "DejaVu Serif"
 
 
@@ -26,23 +25,19 @@ def game_time():
     makes the time spent on the game more readable
     """
     minutes = math.floor(state["time"] / 60)
-    seconds = state["time"] - minutes * 60
+    seconds = state["time"] % 60
 
     if minutes == 0:
-        state["time_2_see"] = "{}s".format(state["time"])
+        state["time_2_see"] = f"{state["time"]}s"
     else:
-        state["time_2_see"] = "{}min {}s".format(minutes, seconds)
+        state["time_2_see"] = f"{minutes}min {seconds}s"
 
 
-def game_time_handler():
+def game_time_handler(time):
     """
     such a complicated handler function for the interval function
     """
     state["time"] += 1
-
-
-def get_date():
-    pass
 
 
 def place_mines(minefield, tiles, mines):
@@ -65,7 +60,7 @@ def place_numbers(minefield, x, y):
     """
     # if something doesn't work then it's probably this
     # the tiles around the selected tiles
-    neighbor = [(x - 1, y - 1), (x - 1, y), (x - 1, y + 1), (x, y),
+    neighbor = [(x - 1, y - 1), (x - 1, y), (x - 1, y + 1),
                 (x, y - 1), (x, y + 1), (x + 1, y - 1), (x + 1, y), (x + 1, y + 1)]
 
     mineamount = 0
@@ -73,18 +68,11 @@ def place_numbers(minefield, x, y):
     for i, j in neighbor:
         if 0 <= j < len(minefield) and 0 <= i < len(minefield[0]) and minefield[j][i] == "x":
             mineamount += 1
-    # ig you can try this, but I don't understand why
-    #if mineamount == 0:
-    #    pass
-    # else:
-    state["field"][y - 1][x - 1] = "{}".format(mineamount)
-    if mineamount == 0:
-        pass
-    if state["field_2_see"][y - 1][x - 1] == "f":
-        # continue
-        pass
-    else:
-        state["field_2_see"][y - 1][x - 1] = "{}".format(mineamount)
+
+    if mineamount > 0:
+        state["field"][y][x] = f"{mineamount}"
+        if state["field_2_see"][y][x] != "f":
+            state["field_2_see"][y][x] = f"{mineamount}"
 
 
 def draw_field():
@@ -126,27 +114,25 @@ def floodfill(minefield, x, y):
         return
 
     unknown_tiles = [(y, x)]
-    if minefield[y][x] == " ":
-        while True:
-            tile = unknown_tiles.pop(0)
-            minefield[tile[0]][tile[1]] = "0"
+    visited = set()
+    while unknown_tiles:
+        tile = unknown_tiles.pop(0)
+        ty, tx = tile
 
-            if state["field_2_see"][tile[0]][tile[1]] == "f":
-                # continue
-                pass
-            else:
-                state["field_2_see"][tile[0]][tile[1]] = "0"
+        if tile in visited:
+            continue
+        visited.add(tile)
 
-            for j in range(tile[0] - 1, tile[0] + 2):
-                for i in range(tile[1] - 1, tile[1] + 2):
-                    rows = len(minefield) - 1
-                    columns = len(minefield[0]) - 1
-                    if 0 <= j <= rows and 0 <= i <= columns:
-                        place_numbers(state["field"], i, j)
-                        if minefield[j][i] == " " and (j, i) not in unknown_tiles:
-                            unknown_tiles.append((j, i))
-            if len(unknown_tiles) == 0:
-                break
+        minefield[ty][tx] = "0"
+        if state["field_2_see"][ty][tx] != "f":
+            state["field_2_see"][ty][tx] = "0"
+
+        for j in range(ty - 1, ty + 2 ):
+            for i in range(tx - 1, tx + 2):
+                if 0 <= j < len(minefield) and 0 <= i < len(minefield[0]) and (j, i) not in visited:
+                    place_numbers(state["field"], i, j)
+                    if minefield[j][i] == " ":
+                        unknown_tiles.append((j, i))
 
 
 def handle_mouse_start(x, y, button, modkey):
@@ -232,7 +218,7 @@ def stats_draw():
     lib.clear_window()
     lib.draw_background()
     draw_btn("<---", 0, 550, 150, 50, (135,206,250,255), 20, 555)
-    draw_btn(" ", 0, 470, 1200, 30, (135,206,250,255), 0, 0)
+    draw_btn(" ", 0, 470, 1300, 30, (135,206,250,255), 0, 0)
 
     with open("stats.txt", "r") as file:
         lines = file.readlines()
@@ -252,7 +238,7 @@ def stats():
     Holds the record of the games played before;
     the difficulty level, date, time and if the user won
     """
-    lib.create_window(width=1200)
+    lib.create_window(width=1300)
     lib.set_draw_handler(stats_draw)
     lib.set_mouse_handler(handle_mouse_stats)
     lib.start()
@@ -345,31 +331,33 @@ def handle_mouse_game(x, y, button, modkey):
     btn_name = buttons.get(button, "")
     x_coord = math.ceil(x / 40) - 1
     y_coord = math.ceil(y / 40) - 1
-    if btn_name == "left":
-        state["clicks"] += 1
-        if field == state["field_2_see"]:
-            lib.set_draw_handler(draw_field)
-        elif field[y_coord][x_coord] == "x":
-            state["ending"] = "lost"
-            to_stats()
-            lose()
-        elif field[y_coord][x_coord] != "x" and state["field_2_see"][y_coord][x_coord] != "f":
-            place_numbers(field, x_coord, y_coord)
-            floodfill(field, x_coord, y_coord)
-            lib.set_draw_handler(draw_field)
 
-    if btn_name =="right":
-        state["clicks"] += 1
-        if field == state["field_2_see"]:
-            lib.set_draw_handler(draw_field)
-        elif state["field_2_see"][y_coord][x_coord] == "f":
-            state["field_2_see"][y_coord][x_coord] = " "
-            lib.set_draw_handler(draw_field)
-            state["flags"] += 1
-        elif state["field_2_see"][y_coord][x_coord] == " ":
-            state["field_2_see"][y_coord][x_coord] = "f"
-            lib.set_draw_handler(draw_field)
-            state["flags"] -= 1
+    if 0 <= x_coord < len(field[0]) and 0 <= y_coord < len(field):
+        if btn_name == "left":
+            state["clicks"] += 1
+#           if field == state["field_2_see"]:
+#                lib.set_draw_handler(draw_field)
+            if field[y_coord][x_coord] == "x":
+                state["ending"] = "lost"
+                to_stats()
+                lose()
+            elif field[y_coord][x_coord] != "x" and state["field_2_see"][y_coord][x_coord] != "f":
+                place_numbers(field, x_coord, y_coord)
+                floodfill(field, x_coord, y_coord)
+                lib.set_draw_handler(draw_field)
+
+        if btn_name =="right":
+            state["clicks"] += 1
+            if field == state["field_2_see"]:
+                lib.set_draw_handler(draw_field)
+            elif state["field_2_see"][y_coord][x_coord] == "f":
+                state["field_2_see"][y_coord][x_coord] = " "
+                lib.set_draw_handler(draw_field)
+                state["flags"] -= 1
+            elif state["field_2_see"][y_coord][x_coord] == " ":
+                state["field_2_see"][y_coord][x_coord] = "f"
+                lib.set_draw_handler(draw_field)
+                state["flags"] += 1
 
     check_win()
 
@@ -414,7 +402,7 @@ def to_stats():
     current_time = time.strftime("%Y-%m-%d %H:%M", time.localtime())
     try:
         with open("stats.txt", "a") as file:
-            file.write(f"{current_time}:  Game time: {state["time_2_see"]}, minefield size: {state["width"]}x{state["height"]}, "
+            file.write(f"{current_time}: Game time: {state["time_2_see"]}, minefield size: {state["width"]}x{state["height"]}, "
                        f"there were {state["mines"]} mines, you clicked {state["clicks"]} times and you {state["ending"]}!\n")
     except IOError:
         print("Saving failed, where are trying to save these stats?")
@@ -435,15 +423,13 @@ def check_win():
     """
     Checks after each click if the player has won the game
     """
-    if state["flags"] == state["mines"]:
-        state["ending"] = "won"
-        to_stats()
-        win()
-    elif state["flags"] + state["unopened"] == state["mines"]:
-        state["ending"] = "won"
-        to_stats()
-        win()
-    elif state["unopened"] == state["mines"]:
+    unopened = sum(row.count(" ") for row in state["field_2_see"])
+    flagged_correctly = sum(
+        1 for y in range(len(state["field"]))
+        for x in range(len(state["field"][0]))
+        if state["field_2_see"][y][x] == "f" and state["field"][y][x] == "x"
+    )
+    if flagged_correctly == state["mines"] and unopened == 0:
         state["ending"] = "won"
         to_stats()
         win()
@@ -502,11 +488,9 @@ def game_screen(x, y, mines):
 
     lib.resize_window(x * 40, y * 40)
     lib.load_sprites("sprites")
-    # "C:\\Users\\msinu\\OneDrive\\Documents\\GitHub\\Elem_programming\\sprites"
-    # "/home/ursa/Documents/Elem_programming/sprites"
     lib.set_draw_handler(draw_field)
     lib.set_mouse_handler(handle_mouse_game)
-    # lib.set_interval_handler(game_time_handler)
+    lib.set_interval_handler(game_time_handler)
     lib.start()
 
 
