@@ -2,6 +2,7 @@ import random
 import sweeperlib as lib
 import math
 import time
+import re
 
 state = {
     "field": [],
@@ -25,10 +26,10 @@ def game_time():
     makes the time spent on the game more readable
     """
     minutes = math.floor(state["time"] / 60)
-    seconds = state["time"] % 60
+    seconds = float(state["time"] % 60)
 
     if minutes == 0:
-        state["time_2_see"] = f"{state["time"]}s"
+        state["time_2_see"] = f"{round(state["time"])}s"
     else:
         state["time_2_see"] = f"{minutes}min {seconds}s"
 
@@ -37,7 +38,8 @@ def game_time_handler(time):
     """
     such a complicated handler function for the interval function
     """
-    state["time"] += 1
+    # yippee works!
+    state["time"] += time
 
 
 def place_mines(minefield, tiles, mines):
@@ -107,6 +109,7 @@ def floodfill(minefield, x, y):
     """
     Opens the tiles that don't contain mines around the pressed tile
     """
+
     if x < 0 or x >= len(minefield[0]) or y < 0 or y >= len(minefield):
         return
 
@@ -119,20 +122,33 @@ def floodfill(minefield, x, y):
         tile = unknown_tiles.pop(0)
         ty, tx = tile
 
+        neighbor = [(tx - 1, ty - 1), (tx - 1, ty), (tx, ty - 1), (tx, ty + 1), (tx + 1, ty)]
+
         if tile in visited:
             continue
         visited.add(tile)
 
         minefield[ty][tx] = "0"
         if state["field_2_see"][ty][tx] != "f":
+            # Lisää siihennumero
             state["field_2_see"][ty][tx] = "0"
+            place_numbers(state["field"], tx, ty)
 
-        for j in range(ty - 1, ty + 2 ):
-            for i in range(tx - 1, tx + 2):
-                if 0 <= j < len(minefield) and 0 <= i < len(minefield[0]) and (j, i) not in visited:
-                    place_numbers(state["field"], i, j)
-                    if minefield[j][i] == " ":
-                        unknown_tiles.append((j, i))
+        #for j in range(ty - 1, ty + 2 ):
+        #    for i in range(tx - 1, tx + 2):
+        for i, j in neighbor:
+
+            if 0 <= j < len(minefield) and 0 <= i < len(minefield[0]) and (j, i) not in visited:
+                # JOs flagi niin visitediin ja continue
+                if state["field_2_see"][j][i] == "f":
+                    visited.add((j, i))
+                    continue
+                # place_numbers(state["field"], i, j)
+                if minefield[j][i] == "x":
+                    continue
+                place_numbers(state["field"], i, j)
+                if minefield[j][i] == " ":
+                    unknown_tiles.append((j, i))
 
 
 def handle_mouse_start(x, y, button, modkey):
@@ -218,12 +234,11 @@ def stats_draw():
     lib.clear_window()
     lib.draw_background()
     draw_btn("<---", 0, 550, 150, 50, (135,206,250,255), 20, 555)
-    draw_btn(" ", 0, 470, 1300, 30, (135,206,250,255), 0, 0)
 
     with open("stats.txt", "r") as file:
         lines = file.readlines()
 
-    x, y = 20, 470 - 50
+    x, y = 20, 500
     spacing = 30
 
     for line in lines:
@@ -337,10 +352,14 @@ def handle_mouse_game(x, y, button, modkey):
             state["clicks"] += 1
 #           if field == state["field_2_see"]:
 #                lib.set_draw_handler(draw_field)
-            if field[y_coord][x_coord] == "x":
+            if field[y_coord][x_coord] == "x" and state["field_2_see"][y_coord][x_coord] != "f":
                 state["ending"] = "lost"
                 to_stats()
                 lose()
+
+            elif re.match(r'[0-8]', state["field_2_see"][y_coord][x_coord]):
+                pass
+
             elif field[y_coord][x_coord] != "x" and state["field_2_see"][y_coord][x_coord] != "f":
                 place_numbers(field, x_coord, y_coord)
                 floodfill(field, x_coord, y_coord)
