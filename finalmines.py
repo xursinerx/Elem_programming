@@ -24,6 +24,7 @@ font = "DejaVu Serif"
 def game_time():
     """
     makes the time spent on the game more readable
+    :return: None
     """
     minutes = math.floor(state["time"] / 60)
     seconds = float(state["time"] % 60)
@@ -37,6 +38,8 @@ def game_time():
 def game_time_handler(time):
     """
     such a complicated handler function for the interval function
+    :param int time: Time increment in seconds
+    :return: None
     """
     # yippee works!
     state["time"] += time
@@ -45,6 +48,10 @@ def game_time_handler(time):
 def place_mines(minefield, tiles, mines):
     """
     Randomize a specific amount of mines into the minefield
+    :param list minefield: 2D list representing the game field
+    :param list tiles: List of available tile coordinates
+    :param int mines: Number of mines to place
+    :return: None
     """
 
     for _ in range(mines):
@@ -59,6 +66,10 @@ def place_numbers(minefield, x, y):
     """
     Prepares the rest of the field by placing either numbers
     or empty tiles into the mineless tiles
+    :param list minefield: 2D list representing the game field
+    :param int x: X-coordinate of the tile
+    :param int y: Y-coordinate of the tile
+    :return: None
     """
     # if something doesn't work then it's probably this
     # the tiles around the selected tiles
@@ -81,6 +92,7 @@ def draw_field():
     """
     A handler function for drawing the two-dimensional list - will be called
     whenever a screen update is needed.
+    :return: None
     """
     tile_size = 40
 
@@ -108,6 +120,10 @@ def draw_field():
 def floodfill(minefield, x, y):
     """
     Opens the tiles that don't contain mines around the pressed tile
+    :param list minefield: 2D list representing the game field
+    :param int x: X-coordinate of the starting tile
+    :param int y: Y-coordinate of the starting tile
+    :return: None
     """
 
     if x < 0 or x >= len(minefield[0]) or y < 0 or y >= len(minefield):
@@ -155,6 +171,11 @@ def handle_mouse_start(x, y, button, modkey):
     """
     Handler function, needed to make it possible to mark flags
     and open mines without the wrong thing happening :p
+    :param int x: X-coordinate of the mouse click
+    :param int y: Y-coordinate of the mouse click
+    :param int button: Mouse button pressed (e.g., left or right)
+    :param int modkey: Modifier keys pressed during the click
+    :return: None
     """
     buttons = {
         lib.MOUSE_LEFT: "left"
@@ -176,6 +197,17 @@ def handle_mouse_start(x, y, button, modkey):
 def draw_btn(name, x, y, width, height, color, txt_x, txt_y, txt_color=(0, 0, 0, 255), size=32):
     """
     makes creating buttons a bit easier
+    :param str name: Button text
+    :param int x: X-coordinate of the top-left corner
+    :param int y: Y-coordinate of the top-left corner
+    :param int width: Width of the button
+    :param int height: Height of the button
+    :param tuple color: Background color, tuple of RGBA values (0-255)
+    :param int txt_x: X-coordinate of the text position
+    :param int txt_y: Y-coordinate of the text position
+    :param tuple txt_color: Text color, tuple of RGBA values (0-255), default is black
+    :param int size: Font size of the text, default is 32
+    :return: None
     """
     lib.prepare_rectangle(x, y, width, height, color)
     lib.draw_text(name, txt_x, txt_y, txt_color, font, size)
@@ -184,6 +216,7 @@ def draw_btn(name, x, y, width, height, color, txt_x, txt_y, txt_color=(0, 0, 0,
 def start_menu_draw():
     """
     Prepares the buttons for start menu
+    :return: None
     """
     lib.clear_window()
     lib.draw_background()
@@ -205,6 +238,7 @@ def start_menu_draw():
 def start_menu():
     """
     Opens the start menu
+    :return: None
     """
     lib.create_window()
     lib.set_draw_handler(start_menu_draw)
@@ -215,6 +249,11 @@ def start_menu():
 def handle_mouse_stats(x, y, button, modkey):
     """
     handles the mouse in the stats screen
+    :param int x: X-coordinate of the mouse click
+    :param int y: Y-coordinate of the mouse click
+    :param int button: Mouse button pressed (e.g., left or right)
+    :param int modkey: Modifier keys pressed during the click
+    :return: None
     """
     buttons = {
         lib.MOUSE_LEFT: "left"
@@ -230,6 +269,7 @@ def handle_mouse_stats(x, y, button, modkey):
 def stats_draw():
     """
     prepares the stats screen
+    :return: None
     """
     lib.clear_window()
     lib.draw_background()
@@ -252,6 +292,7 @@ def stats():
     """
     Holds the record of the games played before;
     the difficulty level, date, time and if the user won
+    :return: None
     """
     lib.create_window(width=1300)
     lib.set_draw_handler(stats_draw)
@@ -262,6 +303,7 @@ def stats():
 def game_menu_draw():
     """
     Prepares buttons for the game menu
+    :return: None
     """
     lib.clear_window()
     lib.draw_background()
@@ -287,6 +329,11 @@ def game_menu_draw():
 def handle_mouse_game_menu(x, y, button, modkey):
     """
     Handles the mouse in the game menu
+    :param int x: X-coordinate of the mouse click
+    :param int y: Y-coordinate of the mouse click
+    :param int button: Mouse button pressed (e.g., left or right)
+    :param int modkey: Modifier keys pressed during the click
+    :return: None
     """
     buttons = {
         lib.MOUSE_LEFT: "left"
@@ -325,6 +372,7 @@ def game_menu():
     Holds four options for game difficulties:
     easy, normal, hard and crazy
     each of them will have a different size and amount of mines
+    :return: None
     """
     lib.create_window()
     lib.set_draw_handler(game_menu_draw)
@@ -335,6 +383,11 @@ def game_menu():
 def handle_mouse_game(x, y, button, modkey):
     """
     Handles the mouse in the game
+    :param int x: X-coordinate of the mouse click
+    :param int y: Y-coordinate of the mouse click
+    :param int button: Mouse button pressed (e.g., left or right)
+    :param int modkey: Modifier keys pressed during the click
+    :return: None
     """
     buttons = {
         lib.MOUSE_LEFT: "left",
@@ -383,7 +436,8 @@ def handle_mouse_game(x, y, button, modkey):
 
 def win_screen_draw():
     """
-    prepares the winning screen for drawing
+    prepares the winning screen for drawing'
+    :return: None
     """
     lib.clear_window()
     lib.draw_background()
@@ -397,6 +451,11 @@ def win_screen_draw():
 def handle_mouse_result(x, y, button, modkey):
     """
     handles the mouse in both result screens
+    :param int x: X-coordinate of the mouse click
+    :param int y: Y-coordinate of the mouse click
+    :param int button: Mouse button pressed (e.g., left or right)
+    :param int modkey: Modifier keys pressed during the click
+    :return: None
     """
     buttons = {
         lib.MOUSE_LEFT: "left",
@@ -416,6 +475,7 @@ def handle_mouse_result(x, y, button, modkey):
 def to_stats():
     """
     saves the statistic of the game to a stats file
+    :return: None
     """
     game_time()
     current_time = time.strftime("%Y-%m-%d %H:%M", time.localtime())
@@ -431,6 +491,7 @@ def win():
     """
     Shows the player the beautiful green screen of victory,
     congrats
+    :return: None
     """
     lib.create_window(bg_color=(11, 218, 81, 255))
     lib.set_draw_handler(win_screen_draw)
@@ -441,6 +502,7 @@ def win():
 def check_win():
     """
     Checks after each click if the player has won the game
+    :return: None
     """
     unopened = sum(row.count(" ") for row in state["field_2_see"])
     flagged_correctly = sum(
@@ -457,6 +519,7 @@ def check_win():
 def lose_screen_draw():
     """
     Prepares the losing screen to be drawn
+    :return: None
     """
     lib.clear_window()
     lib.draw_background()
@@ -472,6 +535,7 @@ def lose():
     """
     Shows the user the red losing screen.
     shouldn't have lost...
+    :return: None
     """
     lib.create_window(bg_color=(220,20,60,255))
     lib.set_draw_handler(lose_screen_draw)
@@ -483,6 +547,10 @@ def game_screen(x, y, mines):
     """
     As the name says, the game screen. This will hopefully show
     the awesome, groundbreaking, never seen before minesweeper
+    :param int x: Number of columns in the minefield
+    :param int y: Number of rows in the minefield
+    :param int mines: Total number of mines to place on the field
+    :return: None
     """
     field = []
     field_2_see = []
