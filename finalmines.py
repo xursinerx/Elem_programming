@@ -1,8 +1,8 @@
 import random
-import sweeperlib as lib
 import math
 import time
 import re
+import sweeperlib as lib
 
 state = {
     "field": [],
@@ -442,8 +442,10 @@ def win_screen_draw():
     lib.clear_window()
     lib.draw_background()
     lib.draw_text("YOU WIN!", 250, 500, (0, 0, 0, 255), font, 36)
-    lib.draw_text(f"You found {state["mines"]} mines from a {state["width"]}x{state["height"]} field", 40, 400, (0, 0, 0, 255), font, 30)
-    draw_btn("To start menu", 225, 250, 350, 80, (255, 255, 255, 200), 260, 265, size=30)
+    lib.draw_text(f"You found {state["mines"]} mines from a {state["width"]}x{state["height"]} field", 40, 400,
+                  (0, 0, 0, 255), font, 30)
+    draw_btn("To start menu", 225, 250, 350, 80, (255, 255, 255, 200),
+             260, 265, size=30)
     draw_btn("To stats", 225, 150, 350, 80, (255, 255, 255, 200), 315, 165, size=30)
     lib.draw_sprites()
 
